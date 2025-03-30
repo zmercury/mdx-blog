@@ -1,4 +1,4 @@
-# Modern Blog Platform
+# Blog
 
 A modern, minimalist blog platform built with Next.js, MDX, and Tailwind CSS. Features a beautiful design with both light and dark modes, syntax highlighting, and a dynamic table of contents.
 

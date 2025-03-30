@@ -1,36 +1,152 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Modern Blog Platform
 
-## Getting Started
+A modern, minimalist blog platform built with Next.js, MDX, and Tailwind CSS. Features a beautiful design with both light and dark modes, syntax highlighting, and a dynamic table of contents.
 
-First, run the development server:
+![Blog Preview](public/blog-preview.png)
 
+## ✨ Features
+
+- **Modern Stack**: Built with Next.js, TypeScript, and Tailwind CSS
+- **Content Management**: Write blog posts in MDX format
+- **Beautiful Design**:
+  - Clean, minimalist interface
+  - Custom color scheme
+  - Responsive layout
+  - Smooth animations with Framer Motion
+- **Dark/Light Mode**: Elegant theme switching with custom color palettes
+- **Developer Experience**:
+  - Syntax highlighting for code blocks
+  - Table of contents for easy navigation
+  - Reading time estimation
+  - Category tags
+
+## 🎨 Color Palette
+
+### Light Mode
+- Primary: `#FDFCDC` (Cream)
+- Secondary: `#F5F4D9`
+- Accent: `#1A535C`
+- Highlight: `#4ECDC4`
+
+### Dark Mode
+- Primary: `#1A1A1A`
+- Secondary: `#2D2D2D`
+- Accent: `#4ECDC4`
+- Highlight: `#FF6B6B`
+
+### UI Elements
+- Teal: `#1A535C`
+- Cyan: `#4ECDC4`
+- Coral: `#FF6B6B`
+- Purple: `#6a4c93`
+- Orange: `#ee964b`
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/blog.git
+cd blog
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Start the development server:
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📝 Creating Blog Posts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create a new `.mdx` file in `src/content/blog/`
+2. Add frontmatter with the following fields:
+```yaml
+---
+title: 'Your Blog Title'
+date: '2024-03-31'
+excerpt: 'A brief description of your blog post'
+readingTime: '5 min read'
+image: 'path/to/your/image.jpg'
+---
+```
+3. Write your content using MDX
 
-## Learn More
+### Code Block Example
 
-To learn more about Next.js, take a look at the following resources:
+```typescript
+// Your code here
+const example = "This will be syntax highlighted"
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Next.js](https://nextjs.org/) - React framework
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [MDX](https://mdxjs.com/) - Content management
+- [Framer Motion](https://www.framer.com/motion/) - Animations
+- [Prism.js](https://prismjs.com/) - Syntax highlighting
 
-## Deploy on Vercel
+## 📱 Responsive Design
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Mobile-first approach
+- Responsive navigation
+- Adaptive table of contents
+- Optimized reading experience across devices
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔧 Customization
+
+### Theme
+
+Modify the color scheme in `tailwind.config.mjs`:
+
+```typescript
+colors: {
+  dark: {
+    primary: '#1A1A1A',
+    // ...
+  },
+  light: {
+    primary: '#FDFCDC',
+    // ...
+  }
+}
+```
+
+### Typography
+
+Customize typography settings in the same config file under the `typography` section.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📞 Support
+
+If you have any questions or need help, please open an issue in the repository.

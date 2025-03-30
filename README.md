@@ -2,8 +2,6 @@
 
 A modern, minimalist blog platform built with Next.js, MDX, and Tailwind CSS. Features a beautiful design with both light and dark modes, syntax highlighting, and a dynamic table of contents.
 
-![Blog Preview](public/blog-preview.png)
-
 ## ✨ Features
 
 - **Modern Stack**: Built with Next.js, TypeScript, and Tailwind CSS
@@ -23,18 +21,21 @@ A modern, minimalist blog platform built with Next.js, MDX, and Tailwind CSS. Fe
 ## 🎨 Color Palette
 
 ### Light Mode
+
 - Primary: `#FDFCDC` (Cream)
 - Secondary: `#F5F4D9`
 - Accent: `#1A535C`
 - Highlight: `#4ECDC4`
 
 ### Dark Mode
+
 - Primary: `#1A1A1A`
 - Secondary: `#2D2D2D`
 - Accent: `#4ECDC4`
 - Highlight: `#FF6B6B`
 
 ### UI Elements
+
 - Teal: `#1A535C`
 - Cyan: `#4ECDC4`
 - Coral: `#FF6B6B`
@@ -45,18 +46,20 @@ A modern, minimalist blog platform built with Next.js, MDX, and Tailwind CSS. Fe
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/yourusername/blog.git
 cd blog
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 # or
@@ -64,6 +67,7 @@ yarn install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run dev
 # or
@@ -76,6 +80,7 @@ yarn dev
 
 1. Create a new `.mdx` file in `src/content/blog/`
 2. Add frontmatter with the following fields:
+
 ```yaml
 ---
 title: 'Your Blog Title'
@@ -85,6 +90,7 @@ readingTime: '5 min read'
 image: 'path/to/your/image.jpg'
 ---
 ```
+
 3. Write your content using MDX
 
 ### Code Block Example
@@ -102,13 +108,6 @@ const example = "This will be syntax highlighted"
 - [MDX](https://mdxjs.com/) - Content management
 - [Framer Motion](https://www.framer.com/motion/) - Animations
 - [Prism.js](https://prismjs.com/) - Syntax highlighting
-
-## 📱 Responsive Design
-
-- Mobile-first approach
-- Responsive navigation
-- Adaptive table of contents
-- Optimized reading experience across devices
 
 ## 🔧 Customization
 
@@ -132,21 +131,3 @@ colors: {
 ### Typography
 
 Customize typography settings in the same config file under the `typography` section.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📞 Support
-
-If you have any questions or need help, please open an issue in the repository.

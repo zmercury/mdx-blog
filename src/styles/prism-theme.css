@@ -1,0 +1,147 @@
+/* Light theme */
+:root {
+  --prism-bg: #F5F4D9;
+  --prism-text: #1A1A1A;
+  --prism-comment: #6e7781;
+  --prism-keyword: #cf222e;
+  --prism-string: #0550ae;
+  --prism-function: #8250df;
+  --prism-number: #1A535C;
+  --prism-operator: #1A535C;
+  --prism-class: #4ECDC4;
+  --prism-variable: #1A1A1A;
+}
+
+/* Dark theme */
+.dark {
+  --prism-bg: #1A1A1A;
+  --prism-text: #E5E5E5;
+  --prism-comment: #A0A0A0;
+  --prism-keyword: #4ECDC4;
+  --prism-string: #FF6B6B;
+  --prism-function: #ee964b;
+  --prism-number: #6a4c93;
+  --prism-operator: #4ECDC4;
+  --prism-class: #FF6B6B;
+  --prism-variable: #E5E5E5;
+}
+
+/* Base styles */
+pre[class*="language-"],
+code[class*="language-"] {
+  color: var(--prism-text);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  tab-size: 4;
+  hyphens: none;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+/* Token colors */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: var(--prism-comment);
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: var(--prism-text);
+}
+
+.token.namespace {
+  opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: var(--prism-keyword);
+}
+
+.token.boolean,
+.token.number {
+  color: var(--prism-number);
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: var(--prism-string);
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: var(--prism-operator);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: var(--prism-keyword);
+}
+
+.token.function,
+.token.class-name {
+  color: var(--prism-function);
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: var(--prism-variable);
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+/* Line numbers */
+.line-numbers .line-numbers-rows {
+  border-right: 1px solid var(--prism-comment);
+}
+
+.line-numbers-rows > span:before {
+  color: var(--prism-comment);
+}
+
+/* Scrollbar styling */
+pre[class*="language-"]::-webkit-scrollbar {
+  height: 8px;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-thumb {
+  background: var(--prism-comment);
+  border-radius: 4px;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
+  background: var(--prism-text);
+} 

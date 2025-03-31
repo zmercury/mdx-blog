@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import BlogPost from '@/components/blog/BlogPost/BlogPost'
 import { getPostBySlug } from '@/lib/mdx'
-import BlogPost from '@/components/blog/BlogPost'
 
 interface BlogPostPageProps {
   params: {

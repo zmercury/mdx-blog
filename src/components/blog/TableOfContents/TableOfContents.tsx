@@ -1,73 +1,140 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useCallback } from 'react'
 import { TableOfContentsProps } from '@/types/blog'
 
 export default function TableOfContents({ headings }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>('')
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id)
-          }
-        })
-      },
-      { rootMargin: '-20% 0px -80% 0px' }
-    )
+  // Throttle function to limit how often we update the active heading
+  const throttle = (func: Function, limit: number) => {
+    let inThrottle: boolean
+    return (...args: any[]) => {
+      if (!inThrottle) {
+        func(...args)
+        inThrottle = true
+        setTimeout(() => (inThrottle = false), limit)
+      }
+    }
+  }
 
-    headings.forEach(({ id }) => {
-      const element = document.getElementById(id)
-      if (element) observer.observe(element)
+  // Function to check which heading is currently in view
+  const checkVisibleHeadings = useCallback(() => {
+    const headingElements = headings.map(({ id }) => document.getElementById(id))
+    const visibleHeadings = headingElements.filter((el): el is HTMLElement => {
+      if (!el) return false
+      const rect = el.getBoundingClientRect()
+      return rect.top >= 0 && rect.top <= window.innerHeight * 0.5
     })
 
-    return () => observer.disconnect()
+    if (visibleHeadings.length > 0) {
+      // Get the heading that's closest to the top of the viewport
+      const closestHeading = visibleHeadings.reduce((prev, current) => {
+        const prevRect = prev.getBoundingClientRect()
+        const currentRect = current.getBoundingClientRect()
+        return Math.abs(currentRect.top) < Math.abs(prevRect.top) ? current : prev
+      })
+
+      setActiveId(closestHeading.id)
+    }
   }, [headings])
+
+  // Throttled version of checkVisibleHeadings
+  const throttledCheck = useCallback(
+    throttle(checkVisibleHeadings, 100),
+    [checkVisibleHeadings]
+  )
+
+  useEffect(() => {
+    // Check visible headings on mount and when headings change
+    checkVisibleHeadings()
+
+    // Add scroll event listener
+    window.addEventListener('scroll', throttledCheck, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', throttledCheck)
+    }
+  }, [throttledCheck, headings])
 
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      // Update active ID immediately for better UX
+      setActiveId(id)
+
+      // Smooth scroll to the element
+      const offset = 100 // Adjust this value based on your layout
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+      const offsetPosition = elementPosition - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
     }
   }
 
   const renderHeading = (heading: { id: string; text: string; level: number }) => {
     const isActive = activeId === heading.id
-    const indentLevel = heading.level - 1 // h1 starts at level 1
+    const indentLevel = heading.level - 1
 
     return (
-      <motion.button
+      <motion.div
         key={heading.id}
-        onClick={() => scrollToHeading(heading.id)}
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.3 }}
-        className={`w-full text-left  ${isActive ? 'text-white' : 'text-gray-500'
-          }`}
-        style={{
-          paddingLeft: `${indentLevel * 2}rem`,
-          fontSize: '0.9rem',
-          lineHeight: '1.75',
+        initial={false}
+        animate={{
+          opacity: isActive ? 1 : 0.7,
+          x: 0
         }}
+        transition={{
+          duration: 0.2,
+          ease: 'easeInOut'
+        }}
+        style={{
+          paddingLeft: `${indentLevel * 1.5}rem`
+        }}
+        className="relative"
       >
-        {heading.text}
-      </motion.button>
+        {isActive && (
+          <motion.div
+            layoutId="activeHeading"
+            className="absolute left-0 w-0.5 h-full bg-light-text dark:bg-dark-text rounded-full -ml-2"
+            transition={{
+              duration: 0.2,
+              ease: 'easeInOut'
+            }}
+          />
+        )}
+        <button
+          onClick={() => scrollToHeading(heading.id)}
+          className={`w-full text-left py-1.5 text-sm transition-colors relative ${
+            isActive 
+              ? 'text-light-text dark:text-dark-text' 
+              : 'text-light-muted dark:text-dark-muted hover:text-light-text dark:hover:text-dark-text'
+          }`}
+        >
+          {heading.text}
+        </button>
+      </motion.div>
     )
   }
 
   return (
     <motion.nav
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
-      className="sticky top-8"
+      className="sticky top-8 pl-4"
     >
-      <h2 className="mb-6 text-xl  text-white">Table of Contents</h2>
+      <h2 className="mb-4 text-xl font-medium text-light-text dark:text-dark-text">
+        Table of Contents
+      </h2>
       <div className="space-y-1">
-        {headings.map((heading) => renderHeading(heading))}
+        <AnimatePresence mode="wait">
+          {headings.map((heading) => renderHeading(heading))}
+        </AnimatePresence>
       </div>
     </motion.nav>
   )

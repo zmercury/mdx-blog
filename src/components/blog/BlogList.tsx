@@ -15,7 +15,7 @@ export default function BlogList({ posts }: BlogListProps) {
   const postsPerPage = 5
 
   // First, sort all posts by date (newest first)
-  const sortedPosts = [...posts].sort((a, b) => 
+  const sortedPosts = [...posts].sort((a, b) =>
     new Date(b.date).getTime() - new Date(a.date).getTime()
   )
 
@@ -24,7 +24,7 @@ export default function BlogList({ posts }: BlogListProps) {
   const startIndex = (currentPage - 1) * postsPerPage
   const endIndex = startIndex + postsPerPage
   const currentPosts = sortedPosts.slice(startIndex, endIndex)
-  
+
   // Group current posts by year
   const groupedPosts = currentPosts.reduce((groups, post) => {
     const year = new Date(post.date).getFullYear()
@@ -56,7 +56,15 @@ export default function BlogList({ posts }: BlogListProps) {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Link href={`/blog/${post.slug}`} className="group block">
-                  <div className="grid grid-cols-[1fr_auto] gap-8 items-start">
+                  <div className="grid grid-cols-[auto_1fr] gap-8 items-start">
+                    <div className="relative w-32 h-32 rounded-lg overflow-hidden flex-shrink-0">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
                     <div className="space-y-4">
                       <h3 className="text-xl font-medium text-light-text dark:text-dark-text group-hover:text-light-highlight dark:group-hover:text-dark-highlight transition-colors">
                         {post.title}
@@ -65,7 +73,7 @@ export default function BlogList({ posts }: BlogListProps) {
                         {post.excerpt}
                       </p>
                       <div className="flex items-center gap-4 text-sm text-light-muted dark:text-dark-muted">
-                        <span>@enscribe</span>
+                        <span>@mercury</span>
                         <span>•</span>
                         <time dateTime={post.date}>
                           {new Date(post.date).toLocaleDateString('en-US', {
@@ -90,14 +98,6 @@ export default function BlogList({ posts }: BlogListProps) {
                         </div>
                       )}
                     </div>
-                    <div className="relative w-32 h-32 rounded-lg overflow-hidden flex-shrink-0">
-                      <Image
-                        src={post.image}
-                        alt={post.title}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
                   </div>
                 </Link>
               </motion.article>
@@ -113,11 +113,10 @@ export default function BlogList({ posts }: BlogListProps) {
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                currentPage === page
-                  ? 'bg-light-accent/20 dark:bg-dark-accent/20 text-light-text dark:text-dark-text'
-                  : 'text-light-muted dark:text-dark-muted hover:text-light-text dark:hover:text-dark-text'
-              }`}
+              className={`px-4 py-2 rounded-lg transition-colors ${currentPage === page
+                ? 'bg-light-accent/20 dark:bg-dark-accent/20 text-light-text dark:text-dark-text'
+                : 'text-light-muted dark:text-dark-muted hover:text-light-text dark:hover:text-dark-text'
+                }`}
             >
               {page}
             </button>

@@ -34,24 +34,28 @@ export default function BlogPost({ post }: BlogPostProps) {
       transition={{ duration: 0.5 }}
     >
       {/* Full width image and header section */}
-      <div className="mb-12">
-        {/* Featured Image */}
-        <div className="relative aspect-[16/9] w-full mb-8 rounded-xl overflow-hidden">
+      <div className="-mx-4 sm:-mx-6 lg:-mx-8">
+        {/* Featured Image Container */}
+        <div className="relative h-[40vh] w-full overflow-hidden">
+          {/* Image */}
           <Image
             src={post.image}
             alt={post.title}
             fill
-            className="object-cover"
+            className="object-cover object-center rounded-md"
             priority
           />
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-light-primary/90 dark:to-dark-primary/90" />
         </div>
 
-        <header>
+        {/* Centered Header Content */}
+        <header className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-light-text dark:text-dark-text sm:text-5xl">
             {post.title}
           </h1>
 
-          <div className="mt-6 flex items-center gap-x-4 text-sm">
+          <div className="mt-6 flex items-center justify-center gap-x-4 text-sm">
             <div className="flex items-center gap-2">
               <span className="font-medium text-light-text dark:text-dark-text">@mercury</span>
               <span className="text-light-muted dark:text-dark-muted">•</span>
@@ -70,13 +74,13 @@ export default function BlogPost({ post }: BlogPostProps) {
           </div>
 
           {post.tags && post.tags.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap gap-2 justify-center mb-8">
               {post.tags.map((tag) => (
                 <span
                   key={tag}
                   className="rounded-full bg-light-accent/20 dark:bg-dark-accent/20 px-3 py-1 text-sm font-medium text-light-text dark:text-dark-text"
                 >
-                  {"#"+ tag}
+                  {"#" + tag}
                 </span>
               ))}
             </div>
@@ -85,10 +89,12 @@ export default function BlogPost({ post }: BlogPostProps) {
       </div>
 
       {/* Content grid with table of contents */}
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[280px_1fr]">
+      <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-[280px_1fr] mt-12">
         {headings.length > 0 && (
-          <div className="hidden lg:block sticky top-8">
-            <TableOfContents headings={headings} />
+          <div className="hidden lg:block">
+            <div className="sticky top-8 max-h-[calc(100vh-8rem)] overflow-y-auto">
+              <TableOfContents headings={headings} />
+            </div>
           </div>
         )}
         <div className="w-full prose prose-lg dark:prose-invert prose-headings:scroll-mt-32 

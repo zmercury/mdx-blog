@@ -31,7 +31,7 @@ export default function Breadcrumbs() {
   })
 
   return (
-    <nav className="flex px-7" aria-label="Breadcrumb">
+    <nav className="flex" aria-label="Breadcrumb">
       <ol className="flex items-center space-x-2">
         <li>
           <Link href="/" className="text-light-muted dark:text-dark-muted hover:text-light-text dark:hover:text-dark-text">

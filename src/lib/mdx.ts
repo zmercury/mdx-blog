@@ -37,6 +37,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
           excerpt: data.excerpt,
           readingTime: data.readingTime,
           image: data.image || '',
+          tags: data.tags || [],
           mdxSource,
         }
       })
@@ -58,6 +59,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost> {
     excerpt: data.excerpt,
     readingTime: data.readingTime,
     image: data.image || '',
+    tags: data.tags || [],
     mdxSource,
   }
 }

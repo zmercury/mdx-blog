@@ -63,6 +63,18 @@ export default function BlogPost({ post }: BlogPostProps) {
               <p className="mt-6 text-lg leading-8 text-light-text dark:text-dark-text">
                 {post.excerpt}
               </p>
+              {post.tags && post.tags.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-light-accent/20 dark:bg-dark-accent/20 px-3 py-1 text-sm font-medium text-light-text dark:text-dark-text"
+                    >
+                      {"#"+ tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </header>
 
             <div className="mt-8">

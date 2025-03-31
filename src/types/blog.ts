@@ -7,6 +7,7 @@ export interface BlogPost {
   excerpt: string
   readingTime: string
   image: string
+  tags?: string[]
   mdxSource: MDXRemoteSerializeResult
 }
 

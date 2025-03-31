@@ -8,9 +8,9 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>('')
 
   // Throttle function to limit how often we update the active heading
-  const throttle = (func: Function, limit: number) => {
+  const throttle = (func: (...args: unknown[]) => void, limit: number) => {
     let inThrottle: boolean
-    return (...args: any[]) => {
+    return (...args: unknown[]) => {
       if (!inThrottle) {
         func(...args)
         inThrottle = true
@@ -42,7 +42,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
 
   // Throttled version of checkVisibleHeadings
   const throttledCheck = useCallback(
-    throttle(checkVisibleHeadings, 100),
+    () => throttle(checkVisibleHeadings, 100),
     [checkVisibleHeadings]
   )
 
@@ -50,15 +50,16 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
     // Check visible headings on mount and when headings change
     checkVisibleHeadings()
 
+    const handleScroll = throttledCheck()
     // Add scroll event listener
-    window.addEventListener('scroll', throttledCheck, { passive: true })
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      window.removeEventListener('scroll', throttledCheck)
+      window.removeEventListener('scroll', handleScroll)
     }
-  }, [throttledCheck, headings])
+  }, [throttledCheck, checkVisibleHeadings])
 
-  const scrollToHeading = (id: string) => {
+  const scrollToHeading = (id: string): void => {
     const element = document.getElementById(id)
     if (element) {
       // Update active ID immediately for better UX
@@ -66,7 +67,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
 
       // Smooth scroll to the element
       const offset = 100 // Adjust this value based on your layout
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY
       const offsetPosition = elementPosition - offset
 
       window.scrollTo({
@@ -76,13 +77,13 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
     }
   }
 
-  const renderHeading = (heading: { id: string; text: string; level: number }) => {
-    const isActive = activeId === heading.id
-    const indentLevel = heading.level - 1
+  const renderHeading = ({ id, text, level }: { id: string; text: string; level: number }) => {
+    const isActive = activeId === id
+    const indentLevel = level - 1
 
     return (
       <motion.div
-        key={heading.id}
+        key={id}
         initial={false}
         animate={{
           opacity: isActive ? 1 : 0.7,
@@ -108,13 +109,15 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
           />
         )}
         <button
-          onClick={() => scrollToHeading(heading.id)}
-          className={`w-full text-left py-1.5 text-sm transition-colors relative ${isActive
-            ? 'text-light-text dark:text-dark-text'
-            : 'text-light-muted dark:text-dark-muted hover:text-light-text dark:hover:text-dark-text'
-            }`}
+          type="button"
+          onClick={() => scrollToHeading(id)}
+          className={`w-full text-left py-1.5 text-sm transition-colors relative ${
+            isActive
+              ? 'text-light-text dark:text-dark-text'
+              : 'text-light-muted dark:text-dark-muted hover:text-light-text dark:hover:text-dark-text'
+          }`}
         >
-          {heading.text}
+          {text}
         </button>
       </motion.div>
     )

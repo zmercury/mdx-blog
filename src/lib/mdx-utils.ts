@@ -1,4 +1,4 @@
-import { Heading } from '@/types/blog'
+import { Heading, HeadingNode } from '@/types/blog'
 
 export const getParentId = (id: string, headings: Heading[]): string | null => {
   const heading = headings.find((h) => h.id === id)

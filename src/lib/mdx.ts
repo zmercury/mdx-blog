@@ -2,21 +2,21 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
-import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import remarkGfm from 'remark-gfm'
+import { BlogPost } from '@/types/blog'
 
 const POSTS_PATH = path.join(process.cwd(), 'src/content/blog')
 
-export interface BlogPost {
-  slug: string
-  title: string
-  date: string
-  excerpt: string
-  readingTime: string
-  image: string
-  mdxSource: MDXRemoteSerializeResult
+const mdxOptions = {
+  mdxOptions: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypeAutolinkHeadings, { behavior: 'append' }],
+    ],
+  },
 }
 
 export async function getAllPosts(): Promise<BlogPost[]> {
@@ -28,15 +28,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
         const filePath = path.join(POSTS_PATH, file)
         const source = fs.readFileSync(filePath, 'utf8')
         const { content, data } = matter(source)
-        const mdxSource = await serialize(content, {
-          mdxOptions: {
-            remarkPlugins: [remarkGfm],
-            rehypePlugins: [
-              rehypeSlug,
-              [rehypeAutolinkHeadings, { behavior: 'append' }],
-            ],
-          },
-        })
+        const mdxSource = await serialize(content, mdxOptions as any)
 
         return {
           slug: file.replace(/\.mdx$/, ''),
@@ -57,15 +49,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost> {
   const filePath = path.join(POSTS_PATH, `${slug}.mdx`)
   const source = fs.readFileSync(filePath, 'utf8')
   const { content, data } = matter(source)
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [remarkGfm],
-      rehypePlugins: [
-        rehypeSlug,
-        [rehypeAutolinkHeadings, { behavior: 'append' }],
-      ],
-    },
-  })
+  const mdxSource = await serialize(content, mdxOptions as any)
 
   return {
     slug,

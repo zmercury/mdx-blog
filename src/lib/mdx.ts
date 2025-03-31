@@ -15,9 +15,9 @@ const mdxOptions = {
     rehypePlugins: [
       rehypeSlug,
       [rehypeAutolinkHeadings, { behavior: 'append' }],
-    ],
+    ] as const,
   },
-}
+} satisfies Parameters<typeof serialize>[1]
 
 export async function getAllPosts(): Promise<BlogPost[]> {
   const files = fs.readdirSync(POSTS_PATH)
@@ -28,7 +28,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
         const filePath = path.join(POSTS_PATH, file)
         const source = fs.readFileSync(filePath, 'utf8')
         const { content, data } = matter(source)
-        const mdxSource = await serialize(content, mdxOptions as any)
+        const mdxSource = await serialize(content, mdxOptions)
 
         return {
           slug: file.replace(/\.mdx$/, ''),
@@ -49,7 +49,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost> {
   const filePath = path.join(POSTS_PATH, `${slug}.mdx`)
   const source = fs.readFileSync(filePath, 'utf8')
   const { content, data } = matter(source)
-  const mdxSource = await serialize(content, mdxOptions as any)
+  const mdxSource = await serialize(content, mdxOptions)
 
   return {
     slug,
@@ -60,4 +60,6 @@ export async function getPostBySlug(slug: string): Promise<BlogPost> {
     image: data.image || '',
     mdxSource,
   }
-} 
+}
+
+export type { BlogPost }

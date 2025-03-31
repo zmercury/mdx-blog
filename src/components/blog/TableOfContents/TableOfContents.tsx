@@ -1,18 +1,30 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { ChevronRight, ChevronDown } from 'lucide-react'
-import { TableOfContentsProps, HeadingNode } from '@/types/blog'
-import { buildHeadingTree, getParentId } from '@/lib/mdx-utils'
+import { TableOfContentsProps } from '@/types/blog'
 
 export default function TableOfContents({ headings }: TableOfContentsProps) {
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
+  const [activeId, setActiveId] = useState<string>('')
 
-  // Initialize all sections as expanded when headings change
   useEffect(() => {
-    const allIds = headings.map(heading => heading.id)
-    setExpandedSections(new Set(allIds))
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id)
+          }
+        })
+      },
+      { rootMargin: '-20% 0px -80% 0px' }
+    )
+
+    headings.forEach(({ id }) => {
+      const element = document.getElementById(id)
+      if (element) observer.observe(element)
+    })
+
+    return () => observer.disconnect()
   }, [headings])
 
   const scrollToHeading = (id: string) => {
@@ -22,99 +34,41 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
     }
   }
 
-  const toggleSection = (id: string) => {
-    setExpandedSections((prev) => {
-      const next = new Set(prev)
-      if (next.has(id)) {
-        next.delete(id)
-      } else {
-        next.add(id)
-      }
-      return next
-    })
+  const renderHeading = (heading: { id: string; text: string; level: number }) => {
+    const isActive = activeId === heading.id
+    const indentLevel = heading.level - 1 // h1 starts at level 1
+
+    return (
+      <motion.button
+        key={heading.id}
+        onClick={() => scrollToHeading(heading.id)}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3 }}
+        className={`w-full text-left  ${isActive ? 'text-white' : 'text-gray-500'
+          }`}
+        style={{
+          paddingLeft: `${indentLevel * 2}rem`,
+          fontSize: '0.9rem',
+          lineHeight: '1.75',
+        }}
+      >
+        {heading.text}
+      </motion.button>
+    )
   }
-
-  const renderTree = (nodes: HeadingNode[], level = 0) => {
-    return nodes.map((node) => {
-      const hasChildren = node.children.length > 0
-      const isExpanded = expandedSections.has(node.id)
-
-      return (
-        <div key={node.id} style={{ marginLeft: `${level * 1}rem` }}>
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-            className="group flex items-center gap-1 rounded-md px-2 py-1 text-sm transition-colors text-light-muted hover:bg-light-accent/5 hover:text-light-accent dark:text-dark-muted dark:hover:bg-dark-accent/5 dark:hover:text-dark-accent"
-          >
-            {hasChildren && (
-              <button
-                onClick={() => toggleSection(node.id)}
-                className="flex items-center justify-center p-0.5 hover:bg-light-secondary dark:hover:bg-dark-secondary rounded"
-              >
-                <AnimatePresence mode="wait">
-                  {isExpanded ? (
-                    <motion.div
-                      key="down"
-                      initial={{ rotate: -90 }}
-                      animate={{ rotate: 0 }}
-                      exit={{ rotate: 90 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronDown className="h-4 w-4" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="right"
-                      initial={{ rotate: 90 }}
-                      animate={{ rotate: 0 }}
-                      exit={{ rotate: -90 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronRight className="h-4 w-4" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </button>
-            )}
-            <button
-              onClick={() => scrollToHeading(node.id)}
-              className="flex-1 text-left hover:underline"
-            >
-              {node.text}
-            </button>
-          </motion.div>
-          <AnimatePresence>
-            {hasChildren && isExpanded && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
-                className="overflow-hidden"
-              >
-                {renderTree(node.children, level + 1)}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      )
-    })
-  }
-
-  const tree = buildHeadingTree(headings)
 
   return (
     <motion.nav
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-auto rounded-lg border border-light-accent/5 bg-light-accent/5 p-6 shadow-sm dark:border-dark-accent/5 dark:bg-dark-accent/5"
+      className="sticky top-8"
     >
-      <h2 className="text-lg font-semibold text-light-text dark:text-dark-text mb-4">
-        Table of Contents
-      </h2>
-      <div className="space-y-1">{renderTree(tree)}</div>
+      <h2 className="mb-6 text-xl  text-white">Table of Contents</h2>
+      <div className="space-y-1">
+        {headings.map((heading) => renderHeading(heading))}
+      </div>
     </motion.nav>
   )
 } 

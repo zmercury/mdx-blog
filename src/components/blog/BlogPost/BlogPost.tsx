@@ -27,42 +27,47 @@ export default function BlogPost({ post }: BlogPostProps) {
   }, [post.mdxSource])
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_250px]">
+    <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[250px_1fr]">
+        {headings.length > 0 && (
+          <div className="hidden lg:block">
+            <TableOfContents headings={headings} />
+          </div>
+        )}
         <div className="w-full">
           <motion.article
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="prose prose-lg mx-auto w-full dark:prose-invert"
+            className="prose prose-lg w-full dark:prose-invert prose-headings:font-mono prose-headings:tracking-tight prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-h4:text-base"
           >
             <header className="mb-8">
               <div className="flex items-center gap-x-4 text-sm">
-                <time dateTime={post.date} className="text-light-muted dark:text-dark-muted">
+                <time dateTime={post.date} className="text-gray-400">
                   {new Date(post.date).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
                   })}
                 </time>
-                <span className="relative z-10 rounded-full bg-light-accent dark:bg-dark-accent px-3 py-1.5 font-medium text-light-text dark:text-dark-text">
+                <span className="relative z-10 rounded-full bg-gray-800 px-3 py-1.5 font-medium text-gray-100">
                   {post.readingTime}
                 </span>
               </div>
-              <h1 className="mt-4 text-4xl font-bold tracking-tight text-light-text dark:text-dark-text sm:text-5xl">
+              <h1 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
                 {post.title}
               </h1>
-              <p className="mt-6 text-lg leading-8 text-light-muted dark:text-dark-muted">
+              <p className="mt-6 text-lg leading-8 text-gray-400">
                 {post.excerpt}
               </p>
             </header>
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                <div className="w-full border-t border-light-accent dark:border-dark-accent" />
+                <div className="w-full border-t border-gray-800" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-light-primary dark:bg-dark-primary px-6 text-sm text-light-muted dark:text-dark-muted">
+                <span className="bg-[#0D0D0D] px-6 text-sm text-gray-400">
                   Article
                 </span>
               </div>
@@ -75,19 +80,13 @@ export default function BlogPost({ post }: BlogPostProps) {
             <div className="mt-16 flex items-center justify-center">
               <Link
                 href="/blog"
-                className="text-sm font-semibold leading-6 text-light-text hover:text-light-highlight dark:text-dark-text dark:hover:text-dark-highlight"
+                className="text-sm font-semibold leading-6 text-gray-400 hover:text-white transition-colors"
               >
                 ← Back to all posts
               </Link>
             </div>
           </motion.article>
         </div>
-
-        {headings.length > 0 && (
-          <div className="hidden lg:block">
-            <TableOfContents headings={headings} />
-          </div>
-        )}
       </div>
     </div>
   )

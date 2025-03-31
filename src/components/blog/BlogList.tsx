@@ -11,7 +11,7 @@ interface BlogListProps {
 
 export default function BlogList({ posts }: BlogListProps) {
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2">
       <h1 className="text-4xl font-bold text-light-text dark:text-dark-text mb-16 text-center">
         Blog Posts
       </h1>

@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { MDXRemote } from 'next-mdx-remote'
 import { BlogPost as BlogPostType } from '@/types/blog'
-import Link from 'next/link'
 import TableOfContents from '../TableOfContents/TableOfContents'
 import { useEffect } from 'react'
 import Prism from 'prismjs'
@@ -92,7 +91,7 @@ export default function BlogPost({ post }: BlogPostProps) {
       <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-[280px_1fr] mt-12">
         {headings.length > 0 && (
           <div className="hidden lg:block">
-            <div className="sticky top-8 max-h-[calc(100vh-8rem)] overflow-y-auto">
+            <div className="sticky top-8">
               <TableOfContents headings={headings} />
             </div>
           </div>

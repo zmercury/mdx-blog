@@ -125,7 +125,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
-      className="sticky top-20 pl-4"
+      className="sticky top-24 pl-4"
     >
       <h2 className="mb-4 text-xl font-medium text-light-text dark:text-dark-text">
         Table of Contents

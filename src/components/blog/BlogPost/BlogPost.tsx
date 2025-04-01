@@ -91,7 +91,7 @@ export default function BlogPost({ post }: BlogPostProps) {
       <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-[280px_1fr] mt-12">
         {headings.length > 0 && (
           <div className="hidden lg:block">
-            <div className="sticky top-8">
+            <div className="sticky top-24">
               <TableOfContents headings={headings} />
             </div>
           </div>

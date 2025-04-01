@@ -111,11 +111,10 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
         <button
           type="button"
           onClick={() => scrollToHeading(id)}
-          className={`w-full text-left py-1.5 text-sm transition-colors relative ${
-            isActive
-              ? 'text-light-text dark:text-dark-text'
-              : 'text-light-muted dark:text-dark-muted hover:text-light-text dark:hover:text-dark-text'
-          }`}
+          className={`w-full text-left py-1.5 text-sm transition-colors relative ${isActive
+            ? 'text-light-text dark:text-dark-text'
+            : 'text-light-muted dark:text-dark-muted hover:text-light-text dark:hover:text-dark-text'
+            }`}
         >
           {text}
         </button>
@@ -128,7 +127,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
-      className="sticky top-24 pl-4"
+      className="sticky top-10 pl-4"
     >
       <h2 className="mb-4 text-xl font-medium text-light-text dark:text-dark-text">
         Table of Contents

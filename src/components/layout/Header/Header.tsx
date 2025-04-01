@@ -13,15 +13,15 @@ export default function Header({ className }: HeaderProps) {
 
   return (
     <header className={cn(
-      "sticky top-0 z-50 bg-light-primary/80 dark:bg-dark-primary/80 backdrop-blur-sm border-b border-light-accent dark:border-dark-accent",
+      "sticky top-0 z-50 bg-light-primary/80 dark:bg-dark-primary/80 backdrop-blur-sm border-b border-light-muted/30 dark:border-dark-muted/30",
       className
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="text-2xl font-bold text-light-text dark:text-dark-text hover:text-light-highlight dark:hover:text-dark-highlight transition-colors"
               >
                 {SITE_NAME}

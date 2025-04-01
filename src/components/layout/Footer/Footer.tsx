@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 export default function Footer({ className }: FooterProps) {
   return (
     <footer className={cn(
-      "bg-light-primary dark:bg-dark-primary border-t border-light-accent dark:border-dark-accent",
+      "bg-light-primary dark:bg-dark-primary border-t border-light-muted/30 dark:border-dark-muted/30",
       className
     )}>
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -56,7 +56,7 @@ export default function Footer({ className }: FooterProps) {
             }
           />
         </div>
-        <div className="mt-8 border-t border-light-accent dark:border-dark-accent pt-8">
+        <div className="mt-8 border-t border-light-muted/30 dark:border-dark-muted/30 pt-8">
           <p className="text-base text-light-muted dark:text-dark-muted text-center">
             &copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
           </p>

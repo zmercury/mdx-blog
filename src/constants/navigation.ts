@@ -6,7 +6,6 @@ export const SITE_DESCRIPTION = 'A modern blog built with Next.js, MDX, and Tail
 export const navigation: NavigationItem[] = [
   { name: 'Home', href: '/' },
   { name: 'Blog', href: '/blog' },
-  { name: 'About', href: '/about' },
 ]
 
 export const socialLinks = [

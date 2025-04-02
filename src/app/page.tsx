@@ -29,12 +29,6 @@ export default function Home() {
             >
               Read Blog Posts
             </Link>
-            <Link
-              href="/about"
-              className="text-sm font-semibold leading-6 text-light-text dark:text-dark-text hover:text-light-highlight dark:hover:text-dark-highlight"
-            >
-              Learn More <span aria-hidden="true">→</span>
-            </Link>
           </div>
         </motion.div>
       </div>

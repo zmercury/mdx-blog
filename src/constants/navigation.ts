@@ -1,6 +1,6 @@
 import { NavigationItem } from '@/types/layout'
 
-export const SITE_NAME = 'My Blog'
+export const SITE_NAME = "Mercury's Blog"
 export const SITE_DESCRIPTION = 'A modern blog built with Next.js, MDX, and Tailwind CSS.'
 
 export const navigation: NavigationItem[] = [
